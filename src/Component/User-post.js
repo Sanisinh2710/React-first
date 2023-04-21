@@ -1,5 +1,6 @@
 import '../style/post.css';
 import { Link } from "react-router-dom";
+import FetchComments from '../Component/comment'
 
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -11,8 +12,7 @@ const Post = () => {
 
     const [post, setPosts] = useState([]);
     const [visible, setVisible] = useState(5);
-    const [come, setCom] = useState([]);
-    const [showCom, setshowCom]  = useState(false);
+   
 
     const fetchPosts = async () => {
 
@@ -27,39 +27,12 @@ const Post = () => {
     }
 
 
-    const fetchComm = async (id) => {
-        if (showCom) {
-            setCom([]);
-            setshowCom(false);
-        }
-        else{
-            const res = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${id}`);
-            const udata = await res.json();
-            
-            setshowCom(true);
-            setCom(udata)
-            for (let i = 0; i < post.length; i++) {
-                if (post[i].id === id) {
-                    post[i].come = udata
-                }
-            }
-        }
-        
-
-    }
-
-
-
-
     useEffect(() => {
         fetchPosts();
     }, []);
 
 
-    useEffect(() => {
-        fetchComm();
-    }, []);
-
+   
     return (
         <>
             <div className='container'>
@@ -70,23 +43,7 @@ const Post = () => {
                             <div className="title">{upost.title}</div>
                             <div className="body">{upost.body}</div>
 
-                            <div className="butCom" onClick={() => fetchComm(upost.id)}>View-comments</div>
-                            {
-                                come.map((c) => {
-
-                                    return (<>
-
-                                        {
-                                           
-                                            (upost.id === c.postId ? <><div className="comments" key={c.id}>
-                                                <p>Name: {c.name}</p>
-                                                <p>Email: {c.email}</p>
-                                                <p>Comment: {c.body}</p>
-                                            </div></> : null)
-                                        }
-                                    </>)
-                                })
-                            }
+                            <FetchComments id={upost.id}/>
                         </div>
 
                     )
