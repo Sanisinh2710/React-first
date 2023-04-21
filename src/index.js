@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from './routes/App';
+import Userform  from './routes/User-form';
 import Post from './Component/User-post';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: '/User-post',
     element: <Post />
+  },
+  {
+    path: '/User-form',
+    element: <Userform />
   },
 ])
 

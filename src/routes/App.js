@@ -1,6 +1,8 @@
-import './style/App.css';
-import Udata from './Component/Udata';
+import '../style/App.css';
+import '../style/post.css';
+import Udata from '../Component/Udata';
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 
 const App = () => {
@@ -19,7 +21,9 @@ const App = () => {
     fetchUser();
   }, [])
   return <>
-    <table>
+  <div className="container">
+
+  <table>
       <thead>
         <tr>
           <th>ID</th>
@@ -35,6 +39,9 @@ const App = () => {
      
       
     </table>
+
+    <Link to={'/User-form'} className="button">Form</Link>
+  </div>
   </>
 }
 

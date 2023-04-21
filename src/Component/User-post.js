@@ -49,7 +49,7 @@ const Post = () => {
                     )
                     )}
                 <div className="bottom">
-                    <button className="loadmore" onClick={loadMore}>More Posts</button>
+                    <button className="button" onClick={loadMore}>More Posts</button>
                     <Link className="back" to={'/'}>back</Link>
                 </div>
             </div>
