@@ -12,6 +12,7 @@ const Post = () => {
     const [post, setPosts] = useState([]);
     const [visible, setVisible] = useState(5);
     const [come, setCom] = useState([]);
+    const [showCom, setshowCom]  = useState(false);
 
     const fetchPosts = async () => {
 
@@ -27,16 +28,23 @@ const Post = () => {
 
 
     const fetchComm = async (id) => {
-
-        const res = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${id}`);
-        const udata = await res.json();
-        setCom(udata)
-        for (let i = 0; i < post.length; i++) {
-            if (post[i].id == id) {
-                post[i].come = udata
+        if (showCom) {
+            setCom([]);
+            setshowCom(false);
+        }
+        else{
+            const res = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${id}`);
+            const udata = await res.json();
+            
+            setshowCom(true);
+            setCom(udata)
+            for (let i = 0; i < post.length; i++) {
+                if (post[i].id === id) {
+                    post[i].come = udata
+                }
             }
         }
-
+        
 
     }
 

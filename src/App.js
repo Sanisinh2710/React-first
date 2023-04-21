@@ -19,7 +19,7 @@ const App = () => {
     fetchUser();
   }, [])
   return <>
-    <table className="">
+    <table>
       <thead>
         <tr>
           <th>ID</th>
