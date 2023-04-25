@@ -2,52 +2,74 @@ import { useState, useEffect } from "react"
 
 const Userfrom = () => {
 
-    const values = { fname: "", lname: "", dob: "", email: "", contact: "", gender: "", addr: "",hobbies:[], achievement: "", achivdate: "" }
+    const values = { fname: "", lname: "", dob: "", email: "", contact: "", gender: "", addr: "", hobbies: [], achievement: [{ title: "", date: "" }] }
     const [foValues, setfoValues] = useState(values)
     const [foerror, setfoerror] = useState({})
     const [isSubmit, setisSubmit] = useState(false)
     const [selectedValues, setSelectedValues] = useState([]);
 
-
+    console.log(foValues);
     const getvalues = (e) => {
         const { name, value } = e.target;
-        console.log(name ,value)
-        
-            
         setfoValues({ ...foValues, [name]: value })
-        console.log(foValues);
+
+
     }
 
     const getcheckbox = (e) => {
-        const {value} = e.target;
+        const { value } = e.target;
 
         const checked = e.target.checked;
 
-        if(checked){
-            
+        if (checked) {
+
             setSelectedValues([...selectedValues, value])
         }
     }
-    
+
+    let achivementValue = (i,e)=>{
+        const {name,value} = e.target;
+        console.log(name,value);
+        let newvalue = foValues.achievement;
+
+        newvalue[i][name] = value
+
+
+        setfoValues({ ...foValues, achievement: newvalue })
+    }
+
+    const addrow = () => {
+        const new1 = foValues.achievement;
+
+        const newachievement = { title: "", date: "" }
+
+        new1.push(newachievement);
+        setfoValues({ ...foValues, achievement: new1 })
+    }
+    let remove = (i)=> {
+        let newFormValues = foValues.achievement;
+        newFormValues.splice(i, 1);
+        setfoValues({...foValues,achievement: newFormValues})
+    }
 
     const submit = (e) => {
         e.preventDefault();
         setfoerror(validation(foValues))
         setisSubmit(true)
-        
+
     }
 
     useEffect(() => {
         setfoValues({ ...foValues, hobbies: selectedValues })
         //eslint-disable-next-line
-    },[selectedValues])
-    
+    }, [selectedValues])
+
     useEffect(() => {
         if (Object.keys(foerror).length === 0 && isSubmit) {
-            console.log(foValues)
         }
         //eslint-disable-next-line
     }, [foerror])
+
 
     const validation = (values) => {
         const errors = {};
@@ -69,6 +91,11 @@ const Userfrom = () => {
             errors.hobbies = "Please select  atleast one hobby";
         }
 
+        if (values.gender.length === 0) {
+            errors.gender = "select your gender";
+        }
+
+
         if (!values.contact) {
             errors.contact = "Please enter your valid Mobile number";
         }
@@ -76,11 +103,10 @@ const Userfrom = () => {
             errors.addr = "Please enter your address";
         }
         if (!values.achievement) {
+            
             errors.achievement = "Please enter your achievment here";
         }
-        if (!values.achivdate) {
-            errors.achivdate = "Please enter your achievment date ";
-        }
+
         return errors;
 
     }
@@ -125,8 +151,8 @@ const Userfrom = () => {
                                     <input type="radio" name="gender" value="male" onChange={getvalues} /> Male
                                     <input type="radio" name="gender" value="female" onChange={getvalues} /> Female
                                     <input type="radio" name="gender" value="other" onChange={getvalues} /> other
-
                                 </td>
+                                <td><p>{foerror.gender}</p></td>
 
                             </tr>
                             <tr>
@@ -143,22 +169,37 @@ const Userfrom = () => {
                                 </td>
                                 <td><p>{foerror.hobbies}</p></td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <label>Achievement:</label>
-                                    <input type="text" name="achievement" value={foValues.achievement} onChange={getvalues} />
-                                    <input type="date" name="achivdate" value={foValues.achivdate} onChange={getvalues} />
-                                </td>
-                                <td>
-                                    <p>{foerror.achievement}</p>
-                                    <p>{foerror.achivdate}</p>
-                                </td>
+                            <tr><td><label>Achievement:</label></td></tr>
+                            {
+                                foValues.achievement.map((a, i) =>
 
+                                    <tr key={i}>
+
+                                        <td >
+                                            <input type="text" name="title" value={a.title} onChange={e => achivementValue(i,e)} />
+                                            <input type="date" name="date" value={a.date} onChange={e => achivementValue(i,e)} />
+                                            {
+                                                i?
+                                                    <button type="button"  onClick={() => remove(i)}>Remove</button>
+                                                    : null
+                                            }
+                                        </td>
+                                        <td>
+
+                                            <p>{foerror.achievement}</p>
+                                        </td>
+
+                                    </tr>
+                                )
+                            }
+                            <tr>
+                                <td> <input type="button" value={"Add Achievement"} onClick={addrow} /></td>
                             </tr>
                         </tbody>
                     </table>
-
-                    <input type="submit" value="submit" />
+                    <div>
+                        <input type="submit" value="submit" />
+                    </div>
                 </form>
             </div>
         </div>

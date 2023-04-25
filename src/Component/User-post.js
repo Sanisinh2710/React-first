@@ -29,6 +29,7 @@ const Post = () => {
 
     useEffect(() => {
         fetchPosts();
+        
     }, []);
 
 
