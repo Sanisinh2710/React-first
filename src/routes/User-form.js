@@ -27,9 +27,9 @@ const Userfrom = () => {
         }
     }
 
-    let achivementValue = (i,e)=>{
-        const {name,value} = e.target;
-        console.log(name,value);
+    let achivementValue = (i, e) => {
+        const { name, value } = e.target;
+        console.log(name, value);
         let newvalue = foValues.achievement;
 
         newvalue[i][name] = value
@@ -46,10 +46,10 @@ const Userfrom = () => {
         new1.push(newachievement);
         setfoValues({ ...foValues, achievement: new1 })
     }
-    let remove = (i)=> {
+    let remove = (i) => {
         let newFormValues = foValues.achievement;
         newFormValues.splice(i, 1);
-        setfoValues({...foValues,achievement: newFormValues})
+        setfoValues({ ...foValues, achievement: newFormValues })
     }
 
     const submit = (e) => {
@@ -102,11 +102,13 @@ const Userfrom = () => {
         if (!values.addr) {
             errors.addr = "Please enter your address";
         }
-        
+
         foValues.achievement.forEach(a => {
-            if (a.title === "" && a.date === "") { 
+
+            if (a.title === "" && a.date === "") {
                 errors.achievement = "Please enter your achievments";
             }
+            a++
         });
 
         return errors;
@@ -178,24 +180,25 @@ const Userfrom = () => {
                                     <tr key={i}>
 
                                         <td >
-                                            <input type="text" name="title" value={a.title} onChange={e => achivementValue(i,e)} />
-                                            <input type="date" name="date" value={a.date} onChange={e => achivementValue(i,e)} />
+                                            <input type="text" name="title" value={a.title} onChange={e => achivementValue(i, e)} />
+                                            <input type="date" name="date" value={a.date} onChange={e => achivementValue(i, e)} />
                                             {
-                                                i?
-                                                    <button type="button"  onClick={() => remove(i)}>Remove</button>
+                                                i ?
+                                                    <button type="button" onClick={() => remove(i)}>Remove</button>
                                                     : null
                                             }
-                                        </td>
-                                        <td>
-
-                                            <p>{foerror.achievement}</p>
                                         </td>
 
                                     </tr>
                                 )
                             }
                             <tr>
-                                <td> <input type="button" value={"Add Achievement"} onClick={addrow} /></td>
+                                    <td> <input type="button" value={"Add Achievement"} onClick={addrow} /></td>
+                                <td>
+                                    {
+                                        foerror.achievement ? <p>{foerror.achievement}</p> : null
+                                    }
+                                </td>
                             </tr>
                         </tbody>
                     </table>
