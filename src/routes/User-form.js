@@ -102,10 +102,12 @@ const Userfrom = () => {
         if (!values.addr) {
             errors.addr = "Please enter your address";
         }
-        if (!values.achievement) {
-            
-            errors.achievement = "Please enter your achievment here";
-        }
+        
+        foValues.achievement.forEach(a => {
+            if (a.title === "" && a.date === "") { 
+                errors.achievement = "Please enter your achievments";
+            }
+        });
 
         return errors;
 
